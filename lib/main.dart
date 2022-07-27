@@ -38,21 +38,10 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:MyNavigationAppbar(loginIsClick: loginIsClick),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            loginCard(
-              passwordController: passwordController,
-              emailController: emailController,
-            ),
-            const SizedBox(
-              height: 50,
-            ),
-            footerInLogin(),
-          ],
-        ),
-      ),
+      appBar: MyNavigationAppbar(loginIsClick: loginIsClick),
+      body: signUpPage(
+          emailController: emailController,
+          passwordController: passwordController),
     );
   }
 }

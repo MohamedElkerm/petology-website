@@ -3,8 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:odc/presentaion_layer/widgets/SharedWidge-ODC.dart';
 
-PreferredSizeWidget MyNavigationAppbar({required loginIsClick}){
-  return  AppBar(
+PreferredSizeWidget MyNavigationAppbar({required loginIsClick}) {
+  return AppBar(
     title: Row(
       children: [
         SvgPicture.asset("assets/images/logo.svg"),
@@ -68,7 +68,7 @@ Widget loginAndSignUpButton({required String buttonName, required isClick, onpre
   );
 }
 
-Widget login() {
+Widget login({required title}) {
   return Container(
     width: 600,
     height: 70,
@@ -85,7 +85,7 @@ Widget login() {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Text(
-          'Login',
+          title,
           style: TextStyle(color: HexColor('#FFE3C5'), fontSize: 20),
         ),
       ),
@@ -117,7 +117,68 @@ Widget fieldsInLogin({required emailController, required passwordController}) {
   );
 }
 
-Widget authButton({required backgroundColor, required title, required logo,required textColor}) {
+Widget fieldsInSignUp({required emailController, required passwordController}) {
+  return Column(
+    children: [
+      Padding(
+        padding: const EdgeInsets.fromLTRB(40, 40, 40, 20),
+        child: defaultFormField(
+          controller: emailController,
+          label: 'First Name',
+          type: TextInputType.emailAddress,
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.fromLTRB(40, 0, 40, 40),
+        child: defaultFormField(
+          controller: passwordController,
+          label: 'Last Name',
+          type: TextInputType.visiblePassword,
+          isPassword: true,
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.fromLTRB(40, 0, 40, 40),
+        child: defaultFormField(
+          controller: passwordController,
+          label: 'Email',
+          type: TextInputType.visiblePassword,
+          isPassword: true,
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.fromLTRB(40, 0, 40, 40),
+        child: defaultFormField(
+          controller: passwordController,
+          label: 'Password',
+          type: TextInputType.visiblePassword,
+          isPassword: true,
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.fromLTRB(40, 0, 40, 40),
+        child: defaultFormField(
+          controller: passwordController,
+          label: 'Re-Enter password',
+          type: TextInputType.visiblePassword,
+          isPassword: true,
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.fromLTRB(40, 0, 40, 40),
+        child: defaultFormField(
+          controller: passwordController,
+          label: 'Country',
+          type: TextInputType.visiblePassword,
+          isPassword: true,
+        ),
+      ),
+      login(title: 'Sign up')
+    ],
+  );
+}
+
+Widget authButton({required backgroundColor, required title, required logo, required textColor}) {
   return Container(
     width: 250,
     height: 50,
@@ -168,11 +229,12 @@ Widget loginCard({required emailController, required passwordController}) {
             children: [
               const Center(
                   child: Text(
-                'Login',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
-              )),
-              fieldsInLogin(emailController: emailController, passwordController: passwordController),
-              login(),
+                    'Login',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
+                  )),
+              fieldsInLogin(emailController: emailController,
+                  passwordController: passwordController),
+              login(title: 'Login'),
               const SizedBox(
                 height: 20,
               ),
@@ -185,7 +247,12 @@ Widget loginCard({required emailController, required passwordController}) {
               SizedBox(height: 25,),
               Padding(
                 padding: const EdgeInsets.only(left: 250),
-                child: Row(children: [Text('Didn\'t have an account? '),InkWell(onTap: (){},child: Text('sign up',style: TextStyle(fontWeight: FontWeight.bold),))],),
+                child: Row(children: [
+                  Text('Didn\'t have an account? '),
+                  InkWell(onTap: () {},
+                      child: Text('sign up',
+                        style: TextStyle(fontWeight: FontWeight.bold),))
+                ],),
               ),
             ],
           ),
@@ -200,10 +267,9 @@ Widget signUpCard({required emailController, required passwordController}) {
     padding: const EdgeInsets.only(top: 100.0),
     child: Column(
       children: [
-        SvgPicture.asset("assets/images/Dog paw-cuate.svg"),
         Container(
           width: 700,
-          height: 625,
+          height: 950,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(30),
               border: Border.all(
@@ -214,25 +280,19 @@ Widget signUpCard({required emailController, required passwordController}) {
             children: [
               const Center(
                   child: Text(
-                    'Login',
+                    'Sign up',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
-                  )),
-              fieldsInLogin(emailController: emailController, passwordController: passwordController),
-              login(),
-              const SizedBox(
-                height: 20,
+                  )
               ),
-              forgetPassword(),
-              const SizedBox(
-                height: 30,
+              Padding(
+                padding: const EdgeInsets.only(top: 30),
+                child: authButtons(),
               ),
               dividerWithOr(),
-              authButtons(),
-              SizedBox(height: 25,),
-              Padding(
-                padding: const EdgeInsets.only(left: 250),
-                child: Row(children: [Text('Didn\'t have an account? '),InkWell(onTap: (){},child: Text('sign up',style: TextStyle(fontWeight: FontWeight.bold),))],),
-              ),
+              fieldsInSignUp(emailController: emailController,
+                  passwordController: passwordController),
+              SizedBox(height: 30,),
+              alreadyHaveAccount(),
             ],
           ),
         ),
@@ -266,7 +326,7 @@ Widget authButtons() {
 
 Widget dividerWithOr() {
   return Padding(
-    padding: const EdgeInsets.fromLTRB(0, 20, 0, 40),
+    padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
     child: Row(children: [
       Expanded(
         child: Container(
@@ -302,10 +362,58 @@ Widget forgetPassword() {
   );
 }
 
+Widget alreadyHaveAccount() {
+  return
+    Padding(
+      padding: const EdgeInsets.only(left: 250),
+      child: Row(children: [
+        Text('Already have an account? ',style: TextStyle(color:HexColor('#4A3126') ),),
+        InkWell(onTap: () {},
+            child: Text('Login',
+              style: TextStyle(fontWeight: FontWeight.bold),))
+      ],),
+    );
+
+}
+
 Widget footerInLogin() {
   return Container(
     height: 200,
     width: double.infinity,
     color: HexColor('#4A3126'),
+  );
+}
+
+Widget loginPage({required passwordController, required emailController}) {
+  return SingleChildScrollView(
+    child: Column(
+      children: [
+        loginCard(
+          passwordController: passwordController,
+          emailController: emailController,
+        ),
+        const SizedBox(
+          height: 50,
+        ),
+        footerInLogin(),
+      ],
+    ),
+  );
+}
+
+Widget signUpPage({required passwordController, required emailController}) {
+  return SingleChildScrollView(
+    child: Column(
+      children: [
+        signUpCard(
+          passwordController: passwordController,
+          emailController: emailController,
+        ),
+        const SizedBox(
+          height: 50,
+        ),
+        footerInLogin(),
+      ],
+    ),
   );
 }
