@@ -39,7 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyNavigationAppbar(loginIsClick: loginIsClick),
-      body: signUpPage(
+      body: loginPage(
           emailController: emailController,
           passwordController: passwordController),
     );
